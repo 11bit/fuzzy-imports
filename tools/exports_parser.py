@@ -110,7 +110,7 @@ class CodeToExports(Transformer):
     def export_default_expression(self, s):
         expression_tree = [x for x in s if isinstance(x, Tree) and x.data == 'expression'][0]
         expression = ''.join(expression_tree.children)
-        if re.match('^[^!@#%^&*()+-=<>/\\\\"\']*$', expression) is not None:
+        if re.match('^[^!@#%^&*()+-=<>/\\\\"\',.]*$', expression) is not None:
             name = expression
         else:
             name = ''
