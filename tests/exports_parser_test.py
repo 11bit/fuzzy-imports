@@ -66,6 +66,13 @@ from tools.exports_parser import parse_source
     ]
 ),
 (
+    'export default variable',
+    'export default MyComponent;',
+    [
+        {'name': 'export named variable', 'isDefault': True, 'value': 'MyComponent'},
+    ]
+),
+(
     'Simple const Declaration',
     'export const myVar=17;',
     [
@@ -128,14 +135,6 @@ export const {
         {'name': 'export const', 'isDefault': False, 'value': 'else'},
     ]
 ),
-(
-    'export default variable',
-    'export default MyComponent;',
-    [
-        {'name': 'export named variable', 'isDefault': True, 'value': 'MyComponent'},
-    ]
-),
-
 #
 # export const { shoulddest_4, shoulddest_5 } = 7
 # export const { test: { internal } } = 7

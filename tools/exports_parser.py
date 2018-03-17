@@ -1,3 +1,4 @@
+import re
 import itertools
 
 # import Imported.tools.lark
@@ -10,7 +11,7 @@ start: NEWLINE? (exports | other)+
 
 exports: EXPORT DEFAULT? FUNCTION (_WS+ NAME)? "(" -> export_function
     | EXPORT DEFAULT? CLASS NAME -> export_class
-    | EXPORT DEFAULT expression -> export_default_expression
+    | EXPORT DEFAULT expression SEP? -> export_default_expression
     | EXPORT VAR var_decl "=" -> export_var
 
 ?var_decl: NAME -> var_name
@@ -23,15 +24,16 @@ obj_decl_pair: NAME ":" obj_decl_pair_right
 ?obj_decl_pair_right: NAME -> var_name
     | obj_decl_group
 
-expression : other
-    | NAME -> export_default_name
+expression : any+
+//    | NAME SEP -> export_default_name
 
+?any: /./
 other: /./+ SEP?
 
 EXPORT: SEP WS* "export" _WS+
 DEFAULT: "default" _WS+
 FUNCTION: "function"
-CLASS: "class" _WS+
+CLASS.2: "class" _WS+
 VAR: ("const" | "let" | "var") _WS+
 
 _WS: WS | NEWLINE
@@ -106,10 +108,17 @@ class CodeToExports(Transformer):
         ))
 
     def export_default_expression(self, s):
+        expression_tree = [x for x in s if isinstance(x, Tree) and x.data == 'expression'][0]
+        expression = ''.join(expression_tree.children)
+        if re.match('^[^!@#%^&*()+-=<>/\\\\"\']*$', expression) is not None:
+            name = expression
+        else:
+            name = ''
+
         self.exports.append(dict(
-            name="export default expression",
+            name="export default expression" if name == '' else "export named variable",
             isDefault=True,
-            value=''
+            value=name
         ))
 
     def export_var(self, s):
