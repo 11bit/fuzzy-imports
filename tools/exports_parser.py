@@ -153,7 +153,7 @@ class CodeToExports(Transformer):
 
 
 def parse(file):
-    with open(file) as f:
+    with open(file, errors="surrogateescape") as f:
         return parse_source(f.read())
 
 

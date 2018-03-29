@@ -3,9 +3,12 @@
 	"iterations": 1,
 	"mods_load_order":
 	[
+		"tools/imports_parser.py",
+		"tools/group_imports.py",
 		"tools/file_utils.py",
 		"tools/exports_parser.py",
 		"tools/__init__.py",
+		"tests/imports_parser_test.py",
 		"tests/exports_parser_test.py",
 		"lib/lark/utils.py",
 		"lib/lark/tree.py",

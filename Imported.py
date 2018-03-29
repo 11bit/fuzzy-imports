@@ -27,6 +27,8 @@ print('Included directory to sys.path :', PPA_PATH)
 try:
     from .tools.exports_parser import parse
     from .tools.file_utils import is_js, get_relative_file_dir, guess_import_name
+    from .tools.imports_parser import parse as parse_imports
+    from .tools.group_imports import find_last_related_import
 except:
     sublime.error_message(
         '{0}: import error: {1}'.format(PLUGIN_NAME, sys.exc_info()[1]))
@@ -151,8 +153,8 @@ class ImportedAddImportCommand(sublime_plugin.TextCommand):
 
                     print('found', len(self.exports))
 
-                    if len(self.exports) == 1:
-                        self.add_import_js_statement(self.cwd, self.exports[0])
+                    if len(self.exports) <= 1:
+                        self.add_import_js_statement(self.cwd, self.exports)
                     else:
                         self.display_exports()
                 else:
@@ -170,17 +172,21 @@ class ImportedAddImportCommand(sublime_plugin.TextCommand):
         rel_path = get_relative_file_dir(file, self.startFile)
         fileName = guess_import_name(file)
 
-        text = IMPORT_TEMPLATE.substitute(name=fileName, path=rel_path)
-        self.view.run_command('imported_insert_import', dict(text=text))
+        self.view.run_command('imported_insert_import', dict(name=fileName, path=rel_path))
         # print(IMPORT_TEMPLATE.substitute(name=fileName, path=rel_path))
 
-    def add_import_js_statement(self, file, meta):
+    def add_import_js_statement(self, file, exports):
+        if len(exports) == 1:
+            meta = exports[0]
+        else:
+            # use defaults if we don't have an export name usually due to problems with parsing file
+            meta = dict(isDefault=True, value=guess_import_name(file))
+
         rel_path = get_relative_file_dir(file, self.startFile, no_extension=True, no_index=True)
 
         export = meta['value'] if meta['isDefault'] else '{ ' + meta['value'] + ' }'
 
-        text = IMPORT_TEMPLATE.substitute(name=export, path=rel_path)
-        self.view.run_command('imported_insert_import', dict(text=text))
+        self.view.run_command('imported_insert_import', dict(name=export, path=rel_path))
         # print(IMPORT_TEMPLATE.substitute(name=export, path=rel_path))
 
     def reset(self):
@@ -205,7 +211,27 @@ class ImportedAddImportCommand(sublime_plugin.TextCommand):
 
 
 class ImportedInsertImportCommand(sublime_plugin.TextCommand):
-    def run(self, edit, text):
+    def run(self, edit, name, path):
+        text = IMPORT_TEMPLATE.substitute(name=name, path=path)
+        file_content = self.view.substr(sublime.Region(0, self.view.size()))
+
         region = self.view.sel()[0]
         line = self.view.line(region)
+
+        imports = parse_imports(file_content)
+        last_import_line = self.view.line(imports[-1].pos)
+        print(imports)
+
+        # if we are in the middle of the code than try to find suitable group for a new born import
+        if line.begin() > last_import_line.begin():
+            related_import_pos = self.view.line(find_last_related_import(imports, path))
+            line = self.view.line(related_import_pos)
+
+        self.insert_import(edit, line, text)
+
+        self.view.sel().clear()
+        self.view.sel().add(sublime.Region(line.begin() + 7, line.begin() + text.find(' from ')))
+
+
+    def insert_import(self, edit, line, text):
         self.view.insert(edit, line.begin(), text + '\n')
