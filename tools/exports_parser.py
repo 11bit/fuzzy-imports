@@ -1,7 +1,6 @@
 import re
 import itertools
 
-# import Imported.tools.lark
 from lark import Lark, Transformer, Tree
 from lark.lexer import Token
 

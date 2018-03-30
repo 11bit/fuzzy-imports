@@ -9,6 +9,7 @@
 		"tools/exports_parser.py",
 		"tools/__init__.py",
 		"tests/imports_parser_test.py",
+		"tests/file_utils_test.py",
 		"tests/exports_parser_test.py",
 		"lib/lark/utils.py",
 		"lib/lark/tree.py",
@@ -30,6 +31,6 @@
 		"lib/lark/grammar.py",
 		"lib/lark/common.py",
 		"lib/lark/__init__.py",
-		"Imported.py"
+		"FuzzyImport.py"
 	]
 }

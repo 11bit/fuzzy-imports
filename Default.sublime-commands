@@ -1,6 +1,6 @@
 [
     {
-        "caption": "Imported: Add import",
-        "command": "imported_add_import"
+        "caption": "FuzzyImport: Add import",
+        "command": "fuzzy_import_add_import"
     }
 ]

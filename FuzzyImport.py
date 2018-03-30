@@ -12,7 +12,7 @@ import sublime
 import sublime_plugin
 
 PPA_PATH = list()
-PLUGIN_NAME = "Imported"
+PLUGIN_NAME = "FuzzyImport"
 
 #-- Cannot use sublime.packages_path() with ST3 because of inconsistency
 #-- of returned path between bootstap time vs running time.
@@ -43,7 +43,7 @@ PLATFORM = sublime.platform()
 def debug_log(s):
     """Debug log."""
     # if sublime.load_settings(FUZZY_SETTINGS).get("debug", False):
-    print("Imported: {}".format(s))
+    print("{}: {}".format(PLUGIN_NAME, s))
 
 def get_root_path():
     """
@@ -61,7 +61,7 @@ def back_dir(cwd):
 
     return get_root_path() if prev == cwd else prev
 
-class ImportedAddImportCommand(sublime_plugin.TextCommand):
+class FuzzyImportAddImportCommand(sublime_plugin.TextCommand):
     cwd = None
     startFile = None
     files = []
@@ -172,7 +172,7 @@ class ImportedAddImportCommand(sublime_plugin.TextCommand):
         rel_path = get_relative_file_dir(file, self.startFile)
         fileName = guess_import_name(file)
 
-        self.view.run_command('imported_insert_import', dict(name=fileName, path=rel_path))
+        self.view.run_command('fuzzy_import_insert_import', dict(name=fileName, path=rel_path))
         # print(IMPORT_TEMPLATE.substitute(name=fileName, path=rel_path))
 
     def add_import_js_statement(self, file, exports):
@@ -187,7 +187,7 @@ class ImportedAddImportCommand(sublime_plugin.TextCommand):
         import_name = meta['value'] if meta['value'] != '' else guess_import_name(file)
         export = import_name if meta['isDefault'] else '{ ' + import_name + ' }'
 
-        self.view.run_command('imported_insert_import', dict(name=export, path=rel_path))
+        self.view.run_command('fuzzy_import_insert_import', dict(name=export, path=rel_path))
         # print(IMPORT_TEMPLATE.substitute(name=export, path=rel_path))
 
     def reset(self):
@@ -211,7 +211,7 @@ class ImportedAddImportCommand(sublime_plugin.TextCommand):
     #         self.home()
 
 
-class ImportedInsertImportCommand(sublime_plugin.TextCommand):
+class FuzzyImportInsertImportCommand(sublime_plugin.TextCommand):
     def run(self, edit, name, path):
         text = IMPORT_TEMPLATE.substitute(name=name, path=path)
         file_content = self.view.substr(sublime.Region(0, self.view.size()))
