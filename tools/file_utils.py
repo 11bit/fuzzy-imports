@@ -16,5 +16,14 @@ def get_relative_file_dir(file, startFile, no_extension=False, no_index=False):
 
     return path.splitext(res)[0] if no_extension else res
 
+def kebab_to_camel(name):
+    return ''.join((
+        part if index == 0 else part[0].upper() + part[1:]
+        for index, part in enumerate(name.split('-'))
+    ))
+
 def guess_import_name(file):
-    return path.splitext(path.basename(file))[0]
+    file_name = path.splitext(path.basename(file))[0]
+    print(file_name)
+    print(kebab_to_camel(file_name))
+    return kebab_to_camel(file_name)

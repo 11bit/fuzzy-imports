@@ -3,4 +3,4 @@ def find_last_related_import(imports, path):
         if imp.path == path:
             return imp.pos
 
-    return 0
+    return imports[-1].pos if len(imports) > 0 else 0

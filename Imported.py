@@ -184,7 +184,8 @@ class ImportedAddImportCommand(sublime_plugin.TextCommand):
 
         rel_path = get_relative_file_dir(file, self.startFile, no_extension=True, no_index=True)
 
-        export = meta['value'] if meta['isDefault'] else '{ ' + meta['value'] + ' }'
+        import_name = meta['value'] if meta['value'] != '' else guess_import_name(file)
+        export = import_name if meta['isDefault'] else '{ ' + import_name + ' }'
 
         self.view.run_command('imported_insert_import', dict(name=export, path=rel_path))
         # print(IMPORT_TEMPLATE.substitute(name=export, path=rel_path))
@@ -220,12 +221,12 @@ class ImportedInsertImportCommand(sublime_plugin.TextCommand):
 
         imports = parse_imports(file_content)
         last_import_line = self.view.line(imports[-1].pos)
-        print(imports)
 
         # if we are in the middle of the code than try to find suitable group for a new born import
         if line.begin() > last_import_line.begin():
-            related_import_pos = self.view.line(find_last_related_import(imports, path))
-            line = self.view.line(related_import_pos)
+            related_import_pos = find_last_related_import(imports, path)
+            row, col = self.view.rowcol(related_import_pos)
+            line = self.view.line(self.view.text_point(row + 1, col))
 
         self.insert_import(edit, line, text)
 
