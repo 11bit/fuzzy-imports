@@ -135,6 +135,16 @@ export const {
         {'name': 'export const', 'isDefault': False, 'value': 'else'},
     ]
 ),
+(
+    'Do not break on flow exports',
+    '''
+export type Icons = $Keys<typeof icons>;
+export const hello = 'world';
+    ''',
+    [
+        {'name': 'export const', 'isDefault': False, 'value': 'hello'},
+    ]
+),
 #
 # export const { shoulddest_4, shoulddest_5 } = 7
 # export const { test: { internal } } = 7

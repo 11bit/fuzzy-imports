@@ -13,6 +13,7 @@ exports: EXPORT DEFAULT? FUNCTION (_WS+ NAME)? "(" -> export_function
     | EXPORT DEFAULT? CLASS NAME -> export_class
     | EXPORT DEFAULT expression SEP? -> export_default_expression
     | EXPORT VAR var_decl "=" -> export_var
+    | EXPORT TYPE var_decl "=" -> export_type
 
 ?var_decl: NAME -> var_name
          | obj_decl_group
@@ -35,6 +36,7 @@ DEFAULT: "default" _WS+
 FUNCTION: "function"
 CLASS.2: "class" _WS+
 VAR: ("const" | "let" | "var") _WS+
+TYPE: "type"
 
 _WS: WS | NEWLINE
 
@@ -153,7 +155,7 @@ class CodeToExports(Transformer):
 
 
 def parse(file):
-    with open(file, errors="surrogateescape") as f:
+    with open(file, errors="replace") as f:
         return parse_source(f.read())
 
 
