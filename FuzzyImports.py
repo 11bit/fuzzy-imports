@@ -12,7 +12,7 @@ import sublime
 import sublime_plugin
 
 PPA_PATH = list()
-PLUGIN_NAME = "FuzzyImport"
+PLUGIN_NAME = "FuzzyImports"
 
 #-- Cannot use sublime.packages_path() with ST3 because of inconsistency
 #-- of returned path between bootstap time vs running time.
@@ -61,7 +61,7 @@ def back_dir(cwd):
 
     return get_root_path() if prev == cwd else prev
 
-class FuzzyImportAddImportCommand(sublime_plugin.TextCommand):
+class FuzzyImportsAddImportCommand(sublime_plugin.TextCommand):
     cwd = None
     startFile = None
     files = []
@@ -153,8 +153,10 @@ class FuzzyImportAddImportCommand(sublime_plugin.TextCommand):
 
                     print('found', len(self.exports))
 
-                    if len(self.exports) <= 1:
-                        self.add_import_js_statement(self.cwd, self.exports)
+                    if len(self.exports) == 1:
+                        self.add_import_js_statement(self.cwd, self.exports[0])
+                    elif len(self.exports) == 0:
+                        self.add_import_js_statement(self.cwd)
                     else:
                         self.display_exports()
                 else:
@@ -172,13 +174,13 @@ class FuzzyImportAddImportCommand(sublime_plugin.TextCommand):
         rel_path = get_relative_file_dir(file, self.startFile)
         fileName = guess_import_name(file)
 
-        self.view.run_command('fuzzy_import_insert_import', dict(name=fileName, path=rel_path))
+        self.view.run_command('fuzzy_imports_insert_import', dict(name=fileName, path=rel_path))
         # print(IMPORT_TEMPLATE.substitute(name=fileName, path=rel_path))
 
-    def add_import_js_statement(self, file, exports):
-        if len(exports) == 1:
-            meta = exports[0]
-        else:
+    def add_import_js_statement(self, file, meta = None):
+        print('======')
+        print(meta['value'])
+        if meta == None:
             # use defaults if we don't have an export name usually due to problems with parsing file
             meta = dict(isDefault=True, value=guess_import_name(file))
 
@@ -187,7 +189,7 @@ class FuzzyImportAddImportCommand(sublime_plugin.TextCommand):
         import_name = meta['value'] if meta['value'] != '' else guess_import_name(file)
         export = import_name if meta['isDefault'] else '{ ' + import_name + ' }'
 
-        self.view.run_command('fuzzy_import_insert_import', dict(name=export, path=rel_path))
+        self.view.run_command('fuzzy_imports_insert_import', dict(name=export, path=rel_path))
         # print(IMPORT_TEMPLATE.substitute(name=export, path=rel_path))
 
     def reset(self):
@@ -211,7 +213,7 @@ class FuzzyImportAddImportCommand(sublime_plugin.TextCommand):
     #         self.home()
 
 
-class FuzzyImportInsertImportCommand(sublime_plugin.TextCommand):
+class FuzzyImportsInsertImportCommand(sublime_plugin.TextCommand):
     def run(self, edit, name, path):
         text = IMPORT_TEMPLATE.substitute(name=name, path=path)
         file_content = self.view.substr(sublime.Region(0, self.view.size()))

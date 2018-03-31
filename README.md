@@ -1,10 +1,12 @@
-FuzzyImport
-===========
+FuzzyImports
+============
 
-Easy and quick way to browse file system from quick panel and add a javascript module imports. Greatly influenced by FuzzyFileNav.
+SublimeText 3 plugin to browse file system from quick panel and add a javascript module imports. Greatly influenced by FuzzyFileNav.
 
 How to use
 ----------
+
+[[https://github.com/11bit/fuzzy-import/blob/master/docs/FuzzyImports.gif|alt="How to Use"]]
 
 1. Open JS file where you want to add an import.
 2. Press Cmd + Alt + i combindation
@@ -20,3 +22,8 @@ Features
 * View non-default exports and choose directly from quick panel
 * Add non-js imports too
 
+Credits
+-------
+
+* [FuzzyFileNav](https://github.com/facelessuser/FuzzyFileNav) - for idea and mechanics
+* [Lark](https://github.com/erezsh/lark) - robust and easy to use parser for exports extraction
