@@ -1,5 +1,5 @@
 {
-	"automatic_order": true,
+	"automatic_order": false,
 	"iterations": 1,
 	"mods_load_order":
 	[
@@ -8,9 +8,6 @@
 		"tools/file_utils.py",
 		"tools/exports_parser.py",
 		"tools/__init__.py",
-		"tests/imports_parser_test.py",
-		"tests/file_utils_test.py",
-		"tests/exports_parser_test.py",
 		"lib/lark/utils.py",
 		"lib/lark/tree.py",
 		"lib/lark/reconstruct.py",
@@ -31,6 +28,9 @@
 		"lib/lark/grammar.py",
 		"lib/lark/common.py",
 		"lib/lark/__init__.py",
-		"FuzzyImport.py"
+		"tests/exports_parser_test.py",
+		"tests/file_utils_test.py",
+		"tests/imports_parser_test.py",
+		"FuzzyImports.py"
 	]
 }
