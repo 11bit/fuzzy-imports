@@ -3,10 +3,10 @@ FuzzyImports
 
 SublimeText 3 plugin to browse file system from quick panel and add a javascript module imports. Greatly influenced by FuzzyFileNav.
 
-How to use
+How to Use
 ----------
 
-[[https://github.com/11bit/fuzzy-imports/blob/master/docs/FuzzyImports.gif | alt="How to Use"]]
+!["How to Use"](docs/FuzzyImports.gif?raw=True "How to Use")
 
 1. Open JS file where you want to add an import.
 2. Press Cmd + Alt + i combindation
