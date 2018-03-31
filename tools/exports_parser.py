@@ -161,6 +161,6 @@ def parse(file):
 def parse_source(src):
     tree = l.parse(";" + src)
 
-    print(tree.pretty())
+    # print(tree.pretty())
 
     return CodeToExports().transform(tree)
