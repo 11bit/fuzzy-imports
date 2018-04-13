@@ -222,10 +222,10 @@ class FuzzyImportsInsertImportCommand(sublime_plugin.TextCommand):
         line = self.view.line(region)
 
         imports = parse_imports(file_content)
-        last_import_line = self.view.line(imports[-1].pos)
+        last_import_line = self.view.line(imports[-1].pos).begin() if len(imports) > 0 else 0
 
         # if we are in the middle of the code than try to find suitable group for a new born import
-        if line.begin() > last_import_line.begin():
+        if line.begin() > last_import_line:
             related_import_pos = find_last_related_import(imports, path)
             row, col = self.view.rowcol(related_import_pos)
             line = self.view.line(self.view.text_point(row + 1, col))
