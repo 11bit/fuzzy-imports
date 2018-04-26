@@ -1,8 +1,8 @@
 import re
 import itertools
 
-from lark import Lark, Transformer, Tree
-from lark.lexer import Token
+from FuzzyImports.lark import Lark, Transformer, Tree
+from FuzzyImports.lark.lexer import Token
 
 l = Lark('''
 

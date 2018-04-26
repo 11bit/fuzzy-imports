@@ -14,25 +14,10 @@ import sublime_plugin
 PPA_PATH = list()
 PLUGIN_NAME = "FuzzyImports"
 
-#-- Cannot use sublime.packages_path() with ST3 because of inconsistency
-#-- of returned path between bootstap time vs running time.
-#pkg_path = os.path.join(sublime.packages_path(), PLUGIN_NAME)
-pkg_path = os.path.abspath(os.path.dirname(__file__))
-libs_path = os.path.join(pkg_path, 'lib')
-PPA_PATH.append(libs_path)
-
-print('Included directory to sys.path :', PPA_PATH)
-[sys.path.insert(0, p) for p in PPA_PATH if p not in sys.path]
-
-try:
-    from .tools.exports_parser import parse
-    from .tools.file_utils import is_js, get_relative_file_dir, guess_import_name
-    from .tools.imports_parser import parse as parse_imports
-    from .tools.group_imports import find_last_related_import
-except:
-    sublime.error_message(
-        '{0}: import error: {1}'.format(PLUGIN_NAME, sys.exc_info()[1]))
-    raise
+from .tools.exports_parser import parse
+from .tools.file_utils import is_js, get_relative_file_dir, guess_import_name
+from .tools.imports_parser import parse as parse_imports
+from .tools.group_imports import find_last_related_import
 
 
 IMPORT_TEMPLATE = Template("import $name from '$path';")
