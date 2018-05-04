@@ -1,8 +1,0 @@
-[
-    {
-        "keys": [
-            "super+alt+i"
-        ],
-        "command": "fuzzy_imports_add_import"
-    },
-]
