@@ -7,9 +7,6 @@ from string import Template
 
 
 import sys
-import os
-import sublime
-import sublime_plugin
 
 PPA_PATH = list()
 PLUGIN_NAME = "FuzzyImports"
