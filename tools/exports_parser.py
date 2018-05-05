@@ -44,17 +44,19 @@ SEP: (";" | NEWLINE)+
 
 // Insert grammar from common.g here so we can still use zipped sublime package
 // ----- content from common.g ---------
-WS: /[ \t\f\r\n]/+
-WS_INLINE: (" "|/\t/)+
 
+WS: /[ \\t\\f\\r\\n]/+
+WS_INLINE: (" "|/\\t/)+
+
+DIGIT: "0".."9"
 LCASE_LETTER: "a".."z"
 UCASE_LETTER: "A".."Z"
 LETTER: UCASE_LETTER | LCASE_LETTER
 WORD: LETTER+
 NAME: ("_"|LETTER) ("_"|LETTER|DIGIT)*
 
-CR : /\r/
-LF : /\n/
+CR : /\\r/
+LF : /\\n/
 NEWLINE: (CR? LF)+
 // ----- end grammar from common.g ------
 
