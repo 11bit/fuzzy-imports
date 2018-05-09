@@ -31,6 +31,11 @@ The easiest way to install FuzzyImports is via [Package Control](https://package
 2. Select FuzzyImports and press Enter.
 3. Restart Sublime to make sure everything is loaded properly
 
+Development
+-----------
+
+Use https://github.com/SublimeText/UnitTesting to run tests.
+
 Credits
 -------
 

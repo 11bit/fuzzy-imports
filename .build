@@ -8,9 +8,6 @@
 		"tools/file_utils.py",
 		"tools/exports_parser.py",
 		"tools/__init__.py",
-		"tests/exports_parser_test.py",
-		"tests/file_utils_test.py",
-		"tests/imports_parser_test.py",
 		"FuzzyImports.py",
 		"lark/parser_frontends.py",
 		"lark/tree.py",
@@ -31,6 +28,9 @@
 		"lark/parsers/lalr_analysis.py",
 		"lark/parsers/resolve_ambig.py",
 		"lark/parsers/grammar_analysis.py",
-		"lark/parsers/earley.py"
+		"lark/parsers/earley.py",
+		"tests/test_file_utils.py",
+		"tests/test_imports_parser.py",
+		"tests/test_exports_parser.py"
 	]
 }

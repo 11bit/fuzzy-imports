@@ -1,9 +1,9 @@
-from nose.tools import eq_
-from parameterized import parameterized
+import unittest
 
-from tools.exports_parser import parse_source
+from FuzzyImports.tools.exports_parser import parse_source
 
-@parameterized([
+
+IMPORTS = [
 (
     'Default Function Declaration 1',
     'export default function default_func_decl(){}',
@@ -156,6 +156,9 @@ export const hello = 'world';
 # export defaultwrong2
 # reexport default wrong3
 # something else
-])
-def test_exports(name, src, parsed_exports):
-    eq_(parse_source(src), parsed_exports)
+]
+
+class TestImportsParser(unittest.TestCase):
+    def test_parser(self):
+        for name, src, res in IMPORTS:
+            self.assertEqual(parse_source(src), res, name)
