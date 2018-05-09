@@ -9,7 +9,7 @@ How to Use
 !["How to Use"](docs/FuzzyImports.gif?raw=True "How to Use")
 
 1. Open JS file where you want to add an import.
-2. Press `Cmd` + `Alt` + `i` combindation (osx) or `Win` + `Alt` + `i` (win, Linux) to bing up the FuzzyImport's quick panel. It will show you a content of the opened file's directory.
+2. Press `Cmd` + `Alt` + `i` combindation (osx) or `Win` + `Alt` + `i` (win, Linux) to bring up the FuzzyImport's quick panel. It will show you a content of the opened file's directory.
 3. Navigate to the file you want to add and press Enter.
 4. If it is a js file and it has named exports it will show them in quick panel and give an ability to add it as a named import.
 5. Otherwise it will add a file as a default import
